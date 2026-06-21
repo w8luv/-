@@ -2,70 +2,518 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЗооБокс</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEQUILA STORE | Ставрополь</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #f7f3eb;
+            color: #2d1f14;
+            padding: 0 16px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0 10px;
+            border-bottom: 2px solid #dac09a;
+            margin-bottom: 28px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #3d2b1a;
+        }
+        .logo span {
+            color: #b8863a;
+            font-weight: 300;
+            font-size: 1rem;
+            margin-left: 6px;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #fff5e8;
+            padding: 10px 18px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #dac09a;
+            font-size: 1.2rem;
+        }
+        .cart-icon:hover {
+            background: #eadbc7;
+        }
+        .cart-count {
+            background: #b8863a;
+            color: white;
+            border-radius: 30px;
+            padding: 0 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* секции */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            border-left: 6px solid #b8863a;
+            padding-left: 16px;
+            margin: 40px 0 24px 0;
+            color: #2d1f14;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 24px;
+            padding: 18px 16px 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+            transition: 0.2s ease;
+            border: 1px solid #ede3d6;
+            display: flex;
+            flex-direction: column;
+        }
+        .menu-item:hover {
+            transform: translateY(-4px);
+            border-color: #c7a87b;
+            box-shadow: 0 12px 28px rgba(184, 134, 58, 0.08);
+        }
+
+        .item-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .item-desc {
+            font-size: 0.9rem;
+            color: #6b5a49;
+            margin-bottom: 12px;
+            flex: 1;
+        }
+        .item-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #3d2b1a;
+            margin-bottom: 14px;
+        }
+        .item-price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #8b7a67;
+            margin-left: 4px;
+        }
+
+        .btn-add {
+            background: #2d1f14;
+            color: white;
+            border: none;
+            padding: 12px 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-add:hover {
+            background: #4f3422;
+        }
+        .btn-add:active {
+            transform: scale(0.96);
+        }
+
+        /* доставка */
+        .delivery-block {
+            background: #fffaf2;
+            border-radius: 32px;
+            padding: 28px 30px;
+            margin: 20px 0 40px;
+            border: 1px solid #dac09a;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .delivery-text {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .delivery-text i {
+            font-size: 2.2rem;
+            color: #b8863a;
+        }
+        .delivery-text h3 {
+            font-weight: 500;
+            font-size: 1.4rem;
+        }
+        .delivery-text p {
+            color: #5f4d39;
+            font-size: 1rem;
+        }
+        .delivery-badge {
+            background: #b8863a;
+            color: white;
+            padding: 8px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* корзина */
+        .cart-section {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            border: 1px solid #dac09a;
+            margin-top: 30px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #eee3d6;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+        .cart-header h2 {
+            font-weight: 500;
+            font-size: 1.6rem;
+        }
+        .clear-cart {
+            background: none;
+            border: 1px solid #d5c0ab;
+            padding: 6px 16px;
+            border-radius: 60px;
+            color: #5f4d39;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .clear-cart:hover {
+            background: #f0e3d7;
+        }
+
+        .cart-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .cart-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e4d7c9;
+        }
+        .cart-list li:last-child {
+            border-bottom: none;
+        }
+        .cart-item-info {
+            display: flex;
+            gap: 18px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .cart-item-name {
+            font-weight: 500;
+        }
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cart-item-qty button {
+            background: #f2ebe2;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #2d1f14;
+        }
+        .cart-item-qty button:hover {
+            background: #dac09a;
+        }
+        .cart-item-price {
+            font-weight: 600;
+            min-width: 70px;
+            text-align: right;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding-top: 16px;
+            border-top: 2px solid #dac09a;
+            margin-top: 8px;
+        }
+
+        .empty-cart {
+            padding: 22px 0;
+            text-align: center;
+            color: #8b7a67;
+            font-size: 1.1rem;
+        }
+
+        /* footer */
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #9e8b78;
+            border-top: 1px solid #dac09a;
+            padding-top: 26px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+            .delivery-block {
+                flex-direction: column;
+                align-items: start;
+            }
+            .cart-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-orb orb1"></div>
-    <div class="bg-orb orb2"></div>
-    <div class="bg-orb orb3"></div>
-    <div class="bg-orb orb4"></div>
-    <div class="bg-orb orb5"></div>
-    <div class="bg-orb orb6"></div>
-    <div class="bg-orb orb7"></div>
-    <div class="dot dot1"></div>
-    <div class="dot dot2"></div>
-    <div class="dot dot3"></div>
-    <div class="dot dot4"></div>
-    <div class="dot dot5"></div>
-    <div class="dot dot6"></div>
-    <div class="dot dot7"></div>
-    <div class="dot dot8"></div>
-    <div class="dot dot9"></div>
-    <div class="dot dot10"></div>
-    <div class="dot dot11"></div>
-    <div class="dot dot12"></div>
 
-    <div class="header">
-        <div class="stats-row">
-            <div class="stat-card-profile" id="profileBlock">
-                <div class="avatar" id="avatar">И</div>
-                <div class="username" id="username">Игрок</div>
-            </div>
-            <div class="stat-card stat-card-level">
-                <div class="stat-line">
-                    <span class="icon">⭐</span>
-                    <span class="label">Уровень</span>
-                    <span class="value" id="level">1</span>
-                </div>
-                <div class="stat-line">
-                    <span class="icon">📊</span>
-                    <span class="label">Опыт</span>
-                    <span class="value" id="expDisplay">0/35</span>
-                </div>
-                <div class="exp-bar"><div class="exp-bar-fill" id="expBar"></div></div>
-            </div>
-            <div class="stat-card stat-card-coins">
-                <div class="stat-line stat-line-coins">
-                    <span class="value" id="coins">1000</span>
-                    <img src="images/money.png" alt="🪙" class="coin-icon" style="width:12px;height:12px;">
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-line stat-line-income">
-                    <span class="icon">⚡</span>
-                    <span class="value" id="hourlyIncome">0</span><span class="value-suffix">/ч</span>
-                </div>
+    <!-- header -->
+    <header class="header">
+        <div class="logo">
+            <h1>🥃 TEQUILA <span>Ставрополь</span></h1>
+        </div>
+        <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </header>
+
+    <!-- меню -->
+    <h2 class="section-title"><i class="fas fa-glass-cheers" style="margin-right: 12px; color:#b8863a;"></i> Наше меню</h2>
+    <div class="menu-grid" id="menuGrid"></div>
+
+    <!-- доставка -->
+    <div class="delivery-block">
+        <div class="delivery-text">
+            <i class="fas fa-truck"></i>
+            <div>
+                <h3>Доставка по Ставрополю</h3>
+                <p>Бесплатно при заказе от 3000 ₽ ·  от 45 минут</p>
             </div>
         </div>
+        <span class="delivery-badge"><i class="fas fa-clock" style="margin-right: 8px;"></i> сегодня с 12:00</span>
     </div>
 
-    <div class="main-content">
-        <div id="page-home" class="page active">
-            <div class="boxes-grid">
-                <div class="box-card">
-                    <div class="box-emoji"><img src="images/box.png" alt="Коробка" class="box-icon"></div>
-                    <div class="box-name">Обычная коробка</div>
-                    <div class="box-price"><img src="images/money.png" alt="🪙" class="coin-icon"> 1500</div>
-                    <button class="
+    <!-- корзина -->
+    <section class="cart-section" id="cartSection">
+        <div class="cart-header">
+            <h2><i class="fas fa-cart-shopping" style="margin-right: 12px; color:#b8863a;"></i>Корзина</h2>
+            <button class="clear-cart" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Очистить</button>
+        </div>
+        <ul class="cart-list" id="cartList">
+            <li class="empty-cart">Ваша корзина пуста, но мы ждём ваш заказ 🍋</li>
+        </ul>
+        <div class="cart-total" id="cartTotal">0 ₽</div>
+    </section>
+
+    <footer class="footer">
+        <i class="fas fa-map-pin" style="margin-right: 6px;"></i> Ставрополь, пр. Карла Маркса · 18+ 
+        <span style="margin: 0 12px;">|</span>  Настоящая текила для настоящих ценителей
+    </footer>
+
+    <script>
+        (function() {
+            // ---------- ДАННЫЕ ----------
+            const menuItems = [
+                { id: 1, name: 'Tequila Blanco', desc: 'Серебряная, 38% · 0.7 л', price: 2890 },
+                { id: 2, name: 'Tequila Reposado', desc: 'Выдержка 6 мес. · 0.7 л', price: 3450 },
+                { id: 3, name: 'Tequila Añejo', desc: 'Выдержка 18 мес. · 0.7 л', price: 4290 },
+                { id: 4, name: 'Tequila Cristalino', desc: 'Фильтрованный añejo · 0.7 л', price: 4990 },
+                { id: 5, name: 'Mini Set 3x0.2', desc: 'Blanco + Reposado + Añejo', price: 2790 },
+                { id: 6, name: 'Tequila Rose', desc: 'Розовая текила · 0.7 л', price: 3250 }
+            ];
+
+            // корзина: { id: количество }
+            let cart = {};
+            // вспомогательный кеш для цен
+            const priceMap = menuItems.reduce((acc, item) => { acc[item.id] = item.price; return acc; }, {});
+
+            // DOM-элементы
+            const menuGrid = document.getElementById('menuGrid');
+            const cartList = document.getElementById('cartList');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const cartCountEl = document.getElementById('cartCount');
+            const clearCartBtn = document.getElementById('clearCartBtn');
+
+            // ---------- ОТРИСОВКА МЕНЮ ----------
+            function renderMenu() {
+                menuGrid.innerHTML = '';
+                menuItems.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'menu-item';
+                    card.innerHTML = `
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-desc">${item.desc}</div>
+                        <div class="item-price">${item.price} ₽ <small>за шт.</small></div>
+                        <button class="btn-add" data-id="${item.id}">
+                            <i class="fas fa-plus-circle"></i> В корзину
+                        </button>
+                    `;
+                    menuGrid.appendChild(card);
+                });
+
+                // обработчики "В корзину"
+                document.querySelectorAll('.btn-add').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(btn.dataset.id);
+                        addToCart(id);
+                    });
+                });
+            }
+
+            // ---------- КОРЗИНА ----------
+            function addToCart(id) {
+                if (!cart[id]) cart[id] = 0;
+                cart[id] += 1;
+                updateCartUI();
+            }
+
+            function removeFromCart(id) {
+                if (cart[id]) {
+                    cart[id] -= 1;
+                    if (cart[id] <= 0) delete cart[id];
+                }
+                updateCartUI();
+            }
+
+            function clearCart() {
+                cart = {};
+                updateCartUI();
+            }
+
+            // обновление интерфейса корзины
+            function updateCartUI() {
+                // общее количество товаров
+                const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+                cartCountEl.textContent = totalItems;
+
+                // список + сумма
+                const cartKeys = Object.keys(cart);
+                let totalSum = 0;
+
+                if (cartKeys.length === 0) {
+                    cartList.innerHTML = `<li class="empty-cart">Ваша корзина пуста, но мы ждём ваш заказ 🍋</li>`;
+                    cartTotalEl.textContent = '0 ₽';
+                    return;
+                }
+
+                let html = '';
+                cartKeys.forEach(key => {
+                    const id = parseInt(key);
+                    const qty = cart[id];
+                    const price = priceMap[id] || 0;
+                    const itemTotal = price * qty;
+                    totalSum += itemTotal;
+
+                    const name = menuItems.find(it => it.id === id)?.name || 'Товар';
+                    html += `
+                        <li>
+                            <div class="cart-item-info">
+                                <span class="cart-item-name">${name}</span>
+                                <div class="cart-item-qty">
+                                    <button data-action="dec" data-id="${id}">−</button>
+                                    <span>${qty}</span>
+                                    <button data-action="inc" data-id="${id}">+</button>
+                                </div>
+                            </div>
+                            <span class="cart-item-price">${itemTotal} ₽</span>
+                        </li>
+                    `;
+                });
+
+                cartList.innerHTML = html;
+                cartTotalEl.textContent = totalSum + ' ₽';
+
+                // обработчики + / -
+                document.querySelectorAll('.cart-item-qty button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(btn.dataset.id);
+                        const action = btn.dataset.action;
+                        if (action === 'inc') {
+                            addToCart(id);
+                        } else if (action === 'dec') {
+                            removeFromCart(id);
+                        }
+                    });
+                });
+            }
+
+            // ---------- ИНИЦИАЛИЗАЦИЯ ----------
+            renderMenu();
+            updateCartUI();
+
+            // очистка корзины
+            clearCartBtn.addEventListener('click', clearCart);
+
+            // иконка корзины (скролл к корзине)
+            document.getElementById('cartIcon').addEventListener('click', () => {
+                document.getElementById('cartSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            // ----- (дополнительно) сохраняем состояние в localStorage ? не требуется, но можно
+            // но для гита пусть будет чисто просмотр, без сервера.
+
+            // Для демонстрации: если хотим добавить пару товаров при загрузке (опционально)
+            // раскомментировать если нужно: 
+            // addToCart(1); addToCart(3); 
+        })();
+    </script>
+</body>
+</html>
